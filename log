@@ -17,3 +17,14 @@ Thu 11 May 2023 04:43:41 PM UTC:
  1 file changed, 3 insertions(+), 1 deletion(-)
  tests:  0|0
 fbc304b
+Thu 11 May 2023 04:47:17 PM UTC: 
+ heap.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+In file included from test.c:4:
+heap.c: In function ‘createHeap’:
+heap.c:39:56: error: ‘capac’ undeclared (first use in this function)
+   39 |   h->heapArray = (heapElem*) malloc(sizeof(heapElem) * capac);
+      |                                                        ^~~~~
+heap.c:39:56: note: each undeclared identifier is reported only once for each function it appears in
+Compilation failed
+faab4ce
