@@ -51,39 +51,34 @@ void heap_push(Heap* pq, void* data, int priority){
 
 void heap_pop(Heap* pq){
   if(pq->size == 0) return;
-  pq->heapArray[0] = pq->heapArray[pq->size];
+  if (pq->size == 1)
+  {
+    pq->size =0;
+    return;
+  }
+  //Mover el ultimo elemento al maximo para eliminar el maximo
+  pq->heapArray[0] = pq->heapArray[pq->size-1];
+   pq->size--;
 
-  int hijoIzq = (2*pq->size) + 1;
-  int hijoDer = (2*pq->size) + 2;
+  int hijoIzq = 1;
+  int hijoDer = 2;
   int actual= 0;
   heapElem aux;
 
-  while(pq->heapArray[actual].priority < pq->heapArray[hijoIzq].priority || pq->heapArray[actual].priority < pq->heapArray[hijoDer].priority){
-  //Caso izq
-    if(pq->heapArray[actual].priority < pq->heapArray[hijoIzq].priority && pq->heapArray[actual].priority > pq->heapArray[hijoDer].priority)
+  while(1)
     {
+      int posElegida = hijoIzq;
+      if(hijoDer < pq->size && pq->heapArray[hijoDer].priority > pq->heapArray[hijoIzq].priority) posElegida = hijoDer;
+      if(pq->heapArray[actual].priority >= pq->heapArray[posElegida].priority) break;
+
       aux = pq->heapArray[actual];
-      pq->heapArray[actual] = pq->heapArray[hijoIzq];
-      pq->heapArray[hijoIzq] = aux;
-
-      actual = hijoIzq;
-      hijoIzq =  (2*actual) + 1;
-      hijoDer = (2*actual) + 2;
+      pq->heapArray[actual] = pq->heapArray[posElegida];
+      pq->heapArray[posElegida] = aux;
+      
+      actual = posElegida;
+      hijoIzq = (2 * actual) + 1;
+      hijoDer = (2 * actual) + 2;
     }
-
-  //Caso der
-    if(pq->heapArray[actual].priority > pq->heapArray[hijoIzq].priority && pq->heapArray[actual].priority < pq->heapArray[hijoDer].priority)
-    {
-      aux = pq->heapArray[actual];
-      pq->heapArray[actual] = pq->heapArray[hijoDer];
-      pq->heapArray[hijoDer] = aux;
-
-      actual = hijoDer;
-      hijoIzq =  (2*actual) + 1;
-      hijoDer = (2*actual) + 2;
-    }
-  }
-  pq->size--;
 }
 
 Heap* createHeap(){
